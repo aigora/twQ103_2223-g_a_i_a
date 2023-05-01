@@ -4,7 +4,10 @@
 
 ## Integrantes del equipo
 
-[Nombres, apellidos, y usuario GitHub de los integrantes del equipo.]
+- Iria Estepa Villaverde
+- Gonzalo Gil Vallejo
+- Alejandro Gómez Pérez
+- Ana Recio Chica @anarecio02
 
 ## Objetivos del trabajo
 
