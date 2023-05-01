@@ -1,6 +1,6 @@
 
 # Medio Ambiente
-[Descripción breve del proyecto a realizar (2-3 frases).]
+En este proyecto llamado GAIA, crearemos un programa que permita registrar, analizar y trabajar con datos recogidos en distintos barrios de la Comunidad de Madrid.
 
 ## Integrantes del equipo
 
