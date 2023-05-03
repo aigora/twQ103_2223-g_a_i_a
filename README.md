@@ -4,7 +4,7 @@ En este proyecto llamado GAIA, crearemos un programa que permita registrar, anal
 
 ## Integrantes del equipo
 
-- Iria Estepa Villaverde
+- Iria Estepa Villaverde @iriax
 - Gonzalo Gil Vallejo @GonzaloGV13
 - Alejandro Gómez Pérez
 - Ana Recio Chica @anarecio02
