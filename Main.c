@@ -14,14 +14,16 @@ int main(){
 	scanf("%d",&opcion);
 	if (opcion==1){
 		printf("Ha seleccionado Atocha\n");
-		
+		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
 	} else if (opcion==2){
 		printf("Ha seleccionado Lavapies\n");
-		
+		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
 	} else if (opcion==3){
 		printf("Has seleccionado\n");
+		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
 	} else if (opcion==4){
 		printf("Has seleccionado \n");
+		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
 	} else
 	printf("¡Hasta pronto!\n");
 
