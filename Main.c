@@ -21,7 +21,7 @@ int main(){
 		printf("Ha seleccionado Atocha\n");
 		 printf("A continuacion se abrira un fichero con los datos de este municipio\n");
 		 FILE * fentrada;
-		  fentrada = fopen("Atocha.txt", "r");
+		  fentrada = fopen("atocha.txt", "r");
 		  if(fentrada == NULL){
 		  printf("Error en la apertura del fichero\n");
 		  return 0;
@@ -29,6 +29,12 @@ int main(){
 	} else if (opcion==2){
 		printf("Ha seleccionado Lavapies\n");
 		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+		 FILE * fentrada;
+		  fentrada = fopen("lavapies.txt", "r");
+		  if(fentrada == NULL){
+		  printf("Error en la apertura del fichero\n");
+		  return 0;
+		  }
 	} else if (opcion==3){
 		printf("Has seleccionado\n");
 		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
