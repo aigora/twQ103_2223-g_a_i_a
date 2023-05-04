@@ -1,6 +1,8 @@
 
 # Medio Ambiente
-En este proyecto llamado GAIA, crearemos un programa que permita registrar, analizar y trabajar con datos recogidos en distintos barrios de la Comunidad de Madrid.
+
+En este proyecto llamado GAIA crearemos un programa que permita registrar, analizar y trabajar con datos recogidos en distintos barrios de la Comunidad de Madrid.
+También permitiremos realizar estadísticas y calculos sobre los datos recogidos.
 
 ## Integrantes del equipo
 
@@ -11,4 +13,7 @@ En este proyecto llamado GAIA, crearemos un programa que permita registrar, anal
 
 ## Objetivos del trabajo
 
-[Lista de los objetivos que se persiguen con el trabajo propuesto.]
+* Conocer los distintos barrios de Madrid.
+* Formarse en conocimientos basicos sobre Medio ambiente.
+* Aprender a trabajar con los distintos parámetros del agua.
+* Manejar cómodante varios ficheros.
