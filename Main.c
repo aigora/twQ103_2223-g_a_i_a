@@ -2,7 +2,15 @@
 #define TAM 200
 
 //DECLARACIÓN FUNCIONES
-
+void printBanner() { //Funcion para el banner
+    printf("#########     ###     ########      ###    \n");
+    printf("##     ##    ## ##       ##        ## ##   \n");
+    printf("##          ##   ##      ##       ##   ##  \n");
+    printf("##  ####   ##     ##     ##      ##     ## \n");
+    printf("##    ##   #########     ##      ######### \n");
+    printf("##    ##   ##     ##     ##      ##     ## \n");
+    printf("########   ##     ##  ########   ##     ## \n");
+}
 // funcion media
 // funcion mayor parametro
 // funcion menor parametro
@@ -31,6 +39,9 @@ int main(){
 	
 	int opcion,i;
 	
+	printBanner();
+	
+	printf("\n \n");
 	
 	printf("Bienvenido a GAIA\n");
 	printf("Registrese antes de comenzar!\n");
