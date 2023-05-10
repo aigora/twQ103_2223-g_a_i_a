@@ -3,7 +3,7 @@
 #define MAX_LENGTH 20
 #define TAM 200
 
-//DECLARACIÓN FUNCIONES
+//DECLARACION FUNCIONES
 void printBanner() { //Funcion para el banner
     printf("#########     ###     ########      ###    \n");
     printf("##     ##    ## ##       ##        ## ##   \n");
@@ -18,7 +18,7 @@ void printBanner() { //Funcion para el banner
 // funcion menor parametro
 #define MAX_LENGTH 20
 
-typedef struct {
+typedef struct { //USUARIOS
     char usuario[MAX_LENGTH];
     char clave[MAX_LENGTH];
 } User;
@@ -79,7 +79,7 @@ int main(){
 	char opcion1,opcion2,opcion3,opcion4;
 	
 	
-	// DECLARACIÓN DE ESTRUTURAS:
+	// DECLARACION DE ESTRUTURAS:
 	struct agua{
 		char fuentesAgua[30];
 		float ph;
