@@ -8,7 +8,7 @@ También permitiremos realizar estadísticas y calculos sobre los datos recogido
 
 - Iria Estepa Villaverde @iriax
 - Gonzalo Gil Vallejo @GonzaloGV13
-- Alejandro Gómez Pérez
+- Alejandro Gómez Pérez @Alejandrogomez27
 - Ana Recio Chica @anarecio02
 
 ## Objetivos del trabajo
