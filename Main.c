@@ -2,8 +2,10 @@
 #include <string.h>
 #define MAX_LENGTH 20
 #define TAM 200
-
-//DECLARACION FUNCIONES
+#define MAX_USERNAME_LENGTH 20
+#define MAX_PASSWORD_LENGTH 20
+#define MAX_LINE_LENGTH 100
+//DECLARACIÓN FUNCIONES
 void printBanner() { //Funcion para el banner
     printf("#########     ###     ########      ###    \n");
     printf("##     ##    ## ##       ##        ## ##   \n");
@@ -16,54 +18,34 @@ void printBanner() { //Funcion para el banner
 // funcion media
 // funcion mayor parametro
 // funcion menor parametro
-#define MAX_LENGTH 20
 
-typedef struct { //USUARIOS
-    char usuario[MAX_LENGTH];
-    char clave[MAX_LENGTH];
-} User;
+int authenticateUser(char *usuario, char *contrasena) {
+    FILE *file = fopen("usuarios.txt", "r");
+    if (file == NULL) {
+        printf("Error al abrir el archivo de usuarios.\n");
+        return 0;
+    }
 
-void createUser(FILE *file) {
-    User newUser;
+    char line[MAX_USERNAME_LENGTH + MAX_PASSWORD_LENGTH + 2];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        line[strcspn(line, "\n")] = '\0'; // Eliminar el salto de línea
 
-    printf("\nNuevo usuario\n");
-    printf("Nombre de usuario: ");
-    scanf("%s", newUser.usuario);
+        char storedUsername[MAX_USERNAME_LENGTH];
+        char storedPassword[MAX_PASSWORD_LENGTH];
 
-    printf("Contrasena: ");
-    scanf("%s", newUser.clave);
+        sscanf(line, "%s %s", storedUsername, storedPassword);
 
-    fprintf(file, "%s %s\n", newUser.usuario, newUser.clave);
-
-    printf("Usuario registrado con exito.\n");
-}
-
-int loginUser(FILE *file) {
-    char usuario[MAX_LENGTH];
-    char clave[MAX_LENGTH];
-
-    printf("\nInicio de sesion\n");
-    printf("Nombre de usuario: ");
-    scanf("%s", usuario);
-
-    printf("Contrasena: ");
-    scanf("%s", clave);
-
-    char fileUsername[MAX_LENGTH];
-    char filePassword[MAX_LENGTH];
-
-    rewind(file);
-
-    while (fscanf(file, "%s %s", fileUsername, filePassword) != EOF) {
-        if (strcmp(usuario, fileUsername) == 0 && strcmp(clave, filePassword) == 0) {
-            printf("Inicio de sesion exitoso. ¡Bienvenido, %s!\n", usuario);
-            return 1;
+        if (strcmp(storedUsername, usuario) == 0 && strcmp(storedPassword, contrasena) == 0) {
+            fclose(file);
+            return 1; // Credenciales válidas
         }
     }
 
-    printf("Nombre de usuario o contrasena incorrectos. Por favor, intenta de nuevo.\n");
-    return 0;
+    fclose(file);
+    return 0; // Credenciales inválidas
 }
+
+
 
 struct TDistrito{
     char parametros[200];
@@ -77,9 +59,17 @@ void imprimirMes(struct TDistrito [], int, FILE* , FILE*);
 
 int main(){
 	char opcion1,opcion2,opcion3,opcion4;
+	char opciones1,opciones2,opciones3,opciones4;
+	char filename[] = "atocha.txt";
+	char filename1[] = "lavapies.txt";
+	char filename2[] = "embajadores.txt";
+	char filename3[] = "malasaña.txt";
+	char line[MAX_LINE_LENGTH];
+	char line1[MAX_LINE_LENGTH];
+	char line2[MAX_LINE_LENGTH];
+	char line3[MAX_LINE_LENGTH];
 	
-	
-	// DECLARACION DE ESTRUTURAS:
+	// DECLARACIÓN DE ESTRUTURAS:
 	struct agua{
 		char fuentesAgua[30];
 		float ph;
@@ -96,54 +86,61 @@ int main(){
 	};
 	
 	struct agua fuentes[TAM];
-	struct inicioSesion usuario[TAM];
 	struct TDistrito distrito[TAM];
-	int opcion,i;
+	int opcion,i,opciones;
 	
 	printBanner();
 	
 	printf("\n \n");
 	
     system("color 9f");
-	
-    FILE *file = fopen("Usuarios.txt", "a+");
+    
+	char usuario[MAX_USERNAME_LENGTH];
+    char contrasena[MAX_PASSWORD_LENGTH];
+      printf("=== Registro de Usuario ===\n");
 
+    printf("Ingrese un nombre de usuario: ");
+    scanf("%s", usuario);
+
+    printf("Ingrese una contrasena: ");
+    scanf("%s", contrasena);
+
+    FILE *file = fopen("usuarios.txt", "w");
     if (file == NULL) {
         printf("Error al abrir el archivo.\n");
         return 1;
     }
 
-    int option;
+    fprintf(file, "%s %s\n", usuario, contrasena);
+    printf("El nombre de usuario y la contrasena se han guardado en correctamente.\n");
+    system("cls");
+
+
+
+    fclose(file);
+
+
+    printf("=== Menu de Inicio de Sesion ===\n");
 
     while (1) {
-        printf("\nMenu principal\n");
-        printf("1. Crear usuario\n");
-        printf("2. Iniciar sesion\n");
-        printf("3. Salir\n");
-        printf("-------------------------\n");
-        printf("Selecciona una opcion: ");
-        scanf("%d", &option);
+        printf("Usuario: ");
+        scanf("%s", usuario);
 
-        switch (option) {
-            case 1:
-                createUser(file);
-                break;
-            case 2:
-                if (loginUser(file))
-                    fclose(file);
-                break;
-            case 3:
-                fclose(file);
-                printf("Hasta pronto.\n");
-                return 0;
-            default:
-                printf("Opcion invalida.\n");
-                break;
+        printf("Contrasena: ");
+        scanf("%s", contrasena);
+
+        if (authenticateUser(usuario, contrasena)) {
+            printf("Inicio de sesion exitoso. ¡Bienvenido, %s!\n", usuario);
+            break;
+        } else {
+            printf("Credenciales invalidas. Intentalo de nuevo.\n");
         }
+        
     }
-
+    
 	
 	printf("\n");
+
 	
 	printf("Seleccione unos de los 4 barrios que tenemos disponibles para consultar sus datos\n");
 	printf("Pulse [1] para Atocha\n");
@@ -161,74 +158,86 @@ int main(){
 	 printf("A continuacion se abrira un fichero con los datos de este municipio\n");
 	 printf("\n \n \n");
 	 
- 
-	  FILE*fichero;
-	  fichero=fopen ("atocha.txt","r"); 
-
-    
-
-      FILE *fentrada, *fsalida;
-      struct TDistrito mes[26] = {0};
-      char nombrefichero[100];
-      fclose(fentrada);
-      fclose(fsalida);
-   
-
-
-
-void imprimirMes(struct TDistrito mes[], int dim, FILE *fsalida, FILE *fentrada) {
-    int i;
-    char titulo1[50], titulo2[50], titulo3[50], titulo4[50], titulo5[50];
-    
-    printf("\n\t\t\t----DOCUMENTO----\n\n");
-    for (i = 0; i < 1; i++) {
-        fscanf(fentrada, "%s%s%s%s%s", titulo1, titulo2, titulo3, titulo4, titulo5);
+ FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return 1;
     }
-    
-	while (fscanf(fentrada, "%s%f%d%d%d", mes[i].parametros, &mes[i].ph, &mes[i].conductividad, &mes[i].turbidez, &mes[i].coliformes) != EOF) {
-		i++;
-	}
-	
-    for (i = 0; i < 1; i++) {
-        printf("%s\t%s\t%s\t%s\t%s\n", titulo1,titulo2, titulo3, titulo4, titulo5);
+
+    printf("Contenido del archivo '%s':\n", filename);
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        printf("%s", line);
     }
-    
-    for (i = 1; i < dim; i++) {
-        printf("%s\t%.2f\t%d\t%d\t%d\n", mes[i].parametros, mes[i].ph, mes[i].conductividad, mes[i].turbidez, mes[i].coliformes);
-    }
-}
-	 
-	    if (fentrada == NULL) {
-		printf("Error, no puede abrir el fichero.\n");
-		return 0;
-	    }	
-	    
-	   
-	
-	
-	
-	fclose(fichero);
+
+    fclose(file);
+	  
 		  
 		  
 	} else if (opcion == 2){
 		printf("Ha seleccionado Lavapies\n");
 		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+		printf("\n \n \n");
+	 
+ FILE *file = fopen(filename1, "r");
+    if (file == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return 1;
+    }
+
+    printf("Contenido del archivo '%s':\n", filename1);
+
+    while (fgets(line1, sizeof(line1), file) != NULL) {
+        printf("%s", line1);
+    }
+
+    fclose(file);
 		
 	} else if (opcion == 3){
 		printf("Has seleccionado Malasana\n");
 		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+		printf("\n \n \n");
+	 
+ FILE *file = fopen(filename2, "r");
+    if (file == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return 1;
+    }
+
+    printf("Contenido del archivo '%s':\n", filename2);
+
+    while (fgets(line2, sizeof(line1), file) != NULL) {
+        printf("%s", line2);
+    }
+
+    fclose(file);
 	} else if (opcion ==4 ){
 		printf("Has seleccionado Embajadores\n");
 		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+		printf("\n \n \n");
+	 
+ FILE *file = fopen(filename3, "r");
+    if (file == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return 1;
+    }
+
+    printf("Contenido del archivo '%s':\n", filename3);
+
+    while (fgets(line3, sizeof(line3), file) != NULL) {
+        printf("%s", line3);
+    }
+
+    fclose(file);
 	} else
 	printf("¡Hasta pronto!\n");
 
-		switch (opcion){
+		switch (opciones){
 		case '1':
 			printf("Seleccione 'i' si desea imprimir los datos de ph  \n");
 			printf("Seleccione 'r' para conocer más acerca del efecto ph en el agua\n");
-			scanf("%c",&opcion1);
-			switch(opcion1){
+			scanf("%c",&opciones1);
+			switch(opciones1){
 				do{
 				
 					case 'R':
@@ -262,10 +271,10 @@ void imprimirMes(struct TDistrito mes[], int dim, FILE *fsalida, FILE *fentrada)
 
 			printf("Seleccione 'i' si desea ver los datos de conductividad \n");
 			printf("Seleccione 'r' si desea saber mas acerca de la conductividad del agua \n");
-			scanf("%c",&opcion2);
+			scanf("%c",&opciones2);
 			int als;
 
-			switch(opcion2){
+			switch(opciones2){
 					case 'r':
 					case 'R':
 						system("cls");
@@ -295,8 +304,8 @@ void imprimirMes(struct TDistrito mes[], int dim, FILE *fsalida, FILE *fentrada)
 		case '3':
 			printf("Seleccione 'i' si desea imprimir los datos de ,turbidez,coliformes \n");
 			printf("Seleccione 'r' para conocer más acerca del efecto la turbidez en el agua\n");
-			scanf("%c",&opcion3);
-			switch(opcion3){
+			scanf("%c",&opciones3);
+			switch(opciones3){
 				do{
 				
 					case 'R':
@@ -325,8 +334,8 @@ void imprimirMes(struct TDistrito mes[], int dim, FILE *fsalida, FILE *fentrada)
 		case '4'://Snake
 			printf("Seleccione 'i' si desea imprimir los datos de coliformes \n");
 			printf("Seleccione 'r' para conocer más acerca de los coliformes en el agua\n");
-			scanf("%c",&opcion4);
-			switch(opcion4){
+			scanf("%c",&opciones4);
+			switch(opciones4){
 				do{
 				
 					case 'R':
@@ -363,8 +372,6 @@ void imprimirMes(struct TDistrito mes[], int dim, FILE *fsalida, FILE *fentrada)
 	
 	i++;
 	
-	
-
 }
 return 0;
 }
