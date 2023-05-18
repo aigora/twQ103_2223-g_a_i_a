@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <string.h>
+
 #define MAX_LENGTH 20
 #define TAM 200
-#define MAX_USERNAME_LENGTH 20
-#define MAX_PASSWORD_LENGTH 20
+#define MAX_USUARIO 20
+#define MAX_CONTRASENA 20
 #define MAX_LINE_LENGTH 100
-//DECLARACIÃ“N FUNCIONES
-void printBanner() { //Funcion para el banner
+
+//DECLARACIÓN DE FUNCIONES
+
+void printBanner() { //Función para el banner
     printf("#########     ###     ########      ###    \n");
     printf("##     ##    ## ##       ##        ## ##   \n");
     printf("##          ##   ##      ##       ##   ##  \n");
@@ -15,37 +18,31 @@ void printBanner() { //Funcion para el banner
     printf("##    ##   ##     ##     ##      ##     ## \n");
     printf("########   ##     ##  ########   ##     ## \n");
 }
-// funcion media
-// funcion mayor parametro
-// funcion menor parametro
 
-int authenticateUser(char *usuario, char *contrasena) {
+int inicioSesion(char *usuario, char *contrasena) {
     FILE *file = fopen("usuarios.txt", "r");
     if (file == NULL) {
         printf("Error al abrir el archivo de usuarios.\n");
         return 0;
     }
 
-    char line[MAX_USERNAME_LENGTH + MAX_PASSWORD_LENGTH + 2];
+    char line[MAX_USUARIO + MAX_CONTRASENA + 2];
     while (fgets(line, sizeof(line), file) != NULL) {
-        line[strcspn(line, "\n")] = '\0'; // Eliminar el salto de lÃ­nea
+        line[strcspn(line, "\n")] = '\0';
 
-        char storedUsername[MAX_USERNAME_LENGTH];
-        char storedPassword[MAX_PASSWORD_LENGTH];
+        char storedUsername[MAX_USUARIO];
+        char storedPassword[MAX_CONTRASENA];
 
         sscanf(line, "%s %s", storedUsername, storedPassword);
 
         if (strcmp(storedUsername, usuario) == 0 && strcmp(storedPassword, contrasena) == 0) {
             fclose(file);
-            return 1; // Credenciales vÃ¡lidas
+            return 1; // Credenciales válidas
         }
     }
-
     fclose(file);
-    return 0; // Credenciales invÃ¡lidas
+    return 0; // Credenciales inválidas
 }
-
-
 
 struct TDistrito{
     char parametros[200];
@@ -60,16 +57,18 @@ void imprimirMes(struct TDistrito [], int, FILE* , FILE*);
 int main(){
 	char opcion1,opcion2,opcion3,opcion4;
 	char opciones1,opciones2,opciones3,opciones4;
+	
 	char filename[] = "atocha.txt";
 	char filename1[] = "lavapies.txt";
 	char filename2[] = "embajadores.txt";
-	char filename3[] = "malasaÃ±a.txt";
+	char filename3[] = "malasana.txt";
+	
 	char line[MAX_LINE_LENGTH];
 	char line1[MAX_LINE_LENGTH];
 	char line2[MAX_LINE_LENGTH];
 	char line3[MAX_LINE_LENGTH];
 	
-	// DECLARACIÃ“N DE ESTRUTURAS:
+	// DECLARACIÓN DE ESTRUTURAS:
 	struct agua{
 		char fuentesAgua[30];
 		float ph;
@@ -95,8 +94,8 @@ int main(){
 	
     system("color 9f");
     
-	char usuario[MAX_USERNAME_LENGTH];
-    char contrasena[MAX_PASSWORD_LENGTH];
+	char usuario[MAX_USUARIO];
+    char contrasena[MAX_CONTRASENA];
       printf("=== Registro de Usuario ===\n");
 
     printf("Ingrese un nombre de usuario: ");
@@ -115,12 +114,10 @@ int main(){
     printf("El nombre de usuario y la contrasena se han guardado en correctamente.\n");
     system("cls");
 
-
-
     fclose(file);
 
 
-    printf("=== Menu de Inicio de Sesion ===\n");
+    printf("=== Menu de inicio de sesion ===\n");
 
     while (1) {
         printf("Usuario: ");
@@ -138,7 +135,6 @@ int main(){
         
     }
     
-	
 	printf("\n");
 
 	
@@ -154,13 +150,13 @@ int main(){
 	
 	
 	if (opcion == 1){
-	 printf("Ha seleccionado Atocha\n\n");
-	 printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-	 printf("\n \n \n");
+	printf("Ha seleccionado Atocha\n\n");
+	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+	printf("\n \n \n");
 	 
- FILE *file = fopen(filename, "r");
+    FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Error al abrir el archivo.\n");
+     printf("Error al abrir el archivo.\n");
         return 1;
     }
 
@@ -175,11 +171,11 @@ int main(){
 		  
 		  
 	} else if (opcion == 2){
-		printf("Ha seleccionado Lavapies\n");
-		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-		printf("\n \n \n");
+	printf("Ha seleccionado Lavapies\n");
+	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+	printf("\n \n \n");
 	 
- FILE *file = fopen(filename1, "r");
+    FILE *file = fopen(filename1, "r");
     if (file == NULL) {
         printf("Error al abrir el archivo.\n");
         return 1;
@@ -192,13 +188,15 @@ int main(){
     }
 
     fclose(file);
+	
+	
 		
 	} else if (opcion == 3){
-		printf("Has seleccionado Malasana\n");
-		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-		printf("\n \n \n");
+	printf("Has seleccionado Malasana\n");
+	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+	printf("\n \n \n");
 	 
- FILE *file = fopen(filename2, "r");
+    FILE *file = fopen(filename2, "r");
     if (file == NULL) {
         printf("Error al abrir el archivo.\n");
         return 1;
@@ -211,12 +209,15 @@ int main(){
     }
 
     fclose(file);
+    
+    
+    
 	} else if (opcion ==4 ){
-		printf("Has seleccionado Embajadores\n");
-		printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-		printf("\n \n \n");
+	printf("Has seleccionado Embajadores\n");
+	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+	printf("\n \n \n");
 	 
- FILE *file = fopen(filename3, "r");
+    FILE *file = fopen(filename3, "r");
     if (file == NULL) {
         printf("Error al abrir el archivo.\n");
         return 1;
@@ -229,17 +230,22 @@ int main(){
     }
 
     fclose(file);
+    
+    
+    
 	} else
 	printf("Â¡Hasta pronto!\n");
-
-		switch (opciones){
+    
+	
+	
+	
+	switch (opciones){
 		case '1':
 			printf("Seleccione 'i' si desea imprimir los datos de ph  \n");
 			printf("Seleccione 'r' para conocer mÃ¡s acerca del efecto ph en el agua\n");
 			scanf("%c",&opciones1);
 			switch(opciones1){
 				do{
-				
 					case 'R':
 					case 'r':
 						system("cls");
@@ -259,9 +265,7 @@ int main(){
 						printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
 						printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
 						
-						
-						
-			}while('r'||'i');
+				}while('r'||'i');
 		}
 		case '2'://Ahorcado
 			while(1){
@@ -360,7 +364,6 @@ int main(){
 			}while('r'||'i');
 		}	
 
-		
 	   	case'5'://Abandonar juego
 			printf("Hasta la proxima!!!!!!!!\n");
 			return 0;
