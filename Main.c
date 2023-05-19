@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <string.h>
-
 #define MAX_LENGTH 20
 #define TAM 200
 #define MAX_USUARIO 20
 #define MAX_CONTRASENA 20
 #define MAX_LINE_LENGTH 100
 
-//DECLARACIÓN DE FUNCIONES
+//DECLARACIÓN DE FUNCIONES:
+void printBanner();
+int inicioSesion(char *usuario, char *contrasena);
+
 
 void printBanner() { //Función para el banner
     printf("#########     ###     ########      ###    \n");
@@ -19,7 +21,7 @@ void printBanner() { //Función para el banner
     printf("########   ##     ##  ########   ##     ## \n");
 }
 
-int inicioSesion(char *usuario, char *contrasena) {
+int inicioSesion(char *usuario, char *contrasena) { // Función para registrar un usuario o iniciar sesión
     FILE *file = fopen("usuarios.txt", "r");
     if (file == NULL) {
         printf("Error al abrir el archivo de usuarios.\n");
@@ -44,17 +46,32 @@ int inicioSesion(char *usuario, char *contrasena) {
     return 0; // Credenciales inválidas
 }
 
-struct TDistrito{
+// DECLARACIÓN DE ESTRUTURAS:
+	struct agua{
+		char fuentesAgua[30];
+		float ph;
+		int conductividad;
+		int turbidez;
+		int coliformes;
+	};
+	struct inicioSesion{
+		char nombre[10];
+		char apellido[20];
+		int codigoPostal;
+		int numTelf;
+	};
+    struct TDistrito{
     char parametros[200];
     float ph;
     int conductividad;
     int turbidez;
     int coliformes;
-};
+    };
 
-void imprimirMes(struct TDistrito [], int, FILE* , FILE*);
+void imprimirMes(struct TDistrito [], int, FILE* , FILE*); // Mirar esto
 
 int main(){
+	// DECLARACIÓN DE VARIABLES
 	char opcion1,opcion2,opcion3,opcion4;
 	char opciones1,opciones2,opciones3,opciones4;
 	
@@ -68,25 +85,13 @@ int main(){
 	char line2[MAX_LINE_LENGTH];
 	char line3[MAX_LINE_LENGTH];
 	
-	// DECLARACIÓN DE ESTRUTURAS:
-	struct agua{
-		char fuentesAgua[30];
-		float ph;
-		int conductividad;
-		int turbidez;
-		int coliformes;
-	};
-	
-	struct inicioSesion{
-		char nombre[10];
-		char apellido[20];
-		int codigoPostal;
-		int numTelf;
-	};
+	char usuario[MAX_USUARIO];
+    char contrasena[MAX_CONTRASENA];
 	
 	struct agua fuentes[TAM];
 	struct TDistrito distrito[TAM];
-	int opcion,i,opciones;
+	
+	int i,opcion,opciones;
 	
 	printBanner();
 	
@@ -94,9 +99,8 @@ int main(){
 	
     system("color 9f");
     
-	char usuario[MAX_USUARIO];
-    char contrasena[MAX_CONTRASENA];
-      printf("=== Registro de Usuario ===\n");
+	
+	printf("=== Registro de Usuario ===\n");
 
     printf("Ingrese un nombre de usuario: ");
     scanf("%s", usuario);
