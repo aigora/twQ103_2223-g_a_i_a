@@ -6,12 +6,12 @@
 #define MAX_CONTRASENA 20
 #define MAX_LINE_LENGTH 100
 
-//DECLARACIÓN DE FUNCIONES:
+//DECLARACION DE FUNCIONES:
 void printBanner();
 int inicioSesion(char *usuario, char *contrasena);
 
 
-void printBanner() { //Función para el banner
+void printBanner() { //Funcion para el banner
     printf("#########     ###     ########      ###    \n");
     printf("##     ##    ## ##       ##        ## ##   \n");
     printf("##          ##   ##      ##       ##   ##  \n");
@@ -21,7 +21,7 @@ void printBanner() { //Función para el banner
     printf("########   ##     ##  ########   ##     ## \n");
 }
 
-int inicioSesion(char *usuario, char *contrasena) { // Función para registrar un usuario o iniciar sesión
+int inicioSesion(char *usuario, char *contrasena) { // Funcion para registrar un usuario o iniciar sesión
     FILE *file = fopen("usuarios.txt", "r");
     if (file == NULL) {
         printf("Error al abrir el archivo de usuarios.\n");
@@ -39,14 +39,14 @@ int inicioSesion(char *usuario, char *contrasena) { // Función para registrar un
 
         if (strcmp(storedUsername, usuario) == 0 && strcmp(storedPassword, contrasena) == 0) {
             fclose(file);
-            return 1; // Credenciales válidas
+            return 1; // Credenciales validas
         }
     }
     fclose(file);
-    return 0; // Credenciales inválidas
+    return 0; // Credenciales invalidas
 }
 
-// DECLARACIÓN DE ESTRUTURAS:
+// DECLARACION DE ESTRUTURAS:
 	struct agua{
 		char fuentesAgua[30];
 		float ph;
@@ -71,7 +71,8 @@ int inicioSesion(char *usuario, char *contrasena) { // Función para registrar un
 void imprimirMes(struct TDistrito [], int, FILE* , FILE*); // Mirar esto
 
 int main(){
-	// DECLARACIÓN DE VARIABLES
+	
+	// DECLARACION DE VARIABLES
 	char opcion1,opcion2,opcion3,opcion4;
 	char opciones1,opciones2,opciones3,opciones4;
 	
@@ -99,13 +100,12 @@ int main(){
 	
     system("color 9f");
     
-	
-	printf("=== Registro de Usuario ===\n");
-
-    printf("Ingrese un nombre de usuario: ");
+    //Registrar un usuario
+	printf("=== Registro de usuario ===\n");
+    printf("Ingrese un nombre de usuario:\n");
     scanf("%s", usuario);
 
-    printf("Ingrese una contrasena: ");
+    printf("Ingrese una contrasena:\n");
     scanf("%s", contrasena);
 
     FILE *file = fopen("usuarios.txt", "w");
@@ -113,21 +113,19 @@ int main(){
         printf("Error al abrir el archivo.\n");
         return 1;
     }
-
     fprintf(file, "%s %s\n", usuario, contrasena);
     printf("El nombre de usuario y la contrasena se han guardado en correctamente.\n");
     system("cls");
 
     fclose(file);
 
-
     printf("=== Menu de inicio de sesion ===\n");
 
     while (1) {
-        printf("Usuario: ");
+        printf("Usuario:\n");
         scanf("%s", usuario);
 
-        printf("Contrasena: ");
+        printf("Contrasena:\n");
         scanf("%s", contrasena);
 
         if (authenticateUser(usuario, contrasena)) {
@@ -136,21 +134,16 @@ int main(){
         } else {
             printf("Credenciales invalidas. Intentalo de nuevo.\n");
         }
-        
     }
     
-	printf("\n");
-
-	
+	// Menu para seleccionar los barrios
 	printf("Seleccione unos de los 4 barrios que tenemos disponibles para consultar sus datos\n");
 	printf("Pulse [1] para Atocha\n");
 	printf("Pulse [2] para Lavapies\n");
 	printf("Pulse [3] para Malasana\n");
 	printf("Pulse [4] para Embajadores\n");
 	printf("Pulse cualquier otro numero para salir\n");
-	
 	scanf("%d",&opcion);
-	
 	
 	
 	if (opcion == 1){
@@ -172,8 +165,6 @@ int main(){
 
     fclose(file);
 	  
-		  
-		  
 	} else if (opcion == 2){
 	printf("Ha seleccionado Lavapies\n");
 	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
@@ -193,8 +184,6 @@ int main(){
 
     fclose(file);
 	
-	
-		
 	} else if (opcion == 3){
 	printf("Has seleccionado Malasana\n");
 	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
@@ -213,8 +202,6 @@ int main(){
     }
 
     fclose(file);
-    
-    
     
 	} else if (opcion ==4 ){
 	printf("Has seleccionado Embajadores\n");
@@ -235,18 +222,14 @@ int main(){
 
     fclose(file);
     
-    
-    
 	} else
-	printf("Â¡Hasta pronto!\n");
+	printf("¡Hasta pronto!\n");
     
-	
-	
-	
+	//Menu para elegir varias opciones de informacion
 	switch (opciones){
 		case '1':
-			printf("Seleccione 'i' si desea imprimir los datos de ph  \n");
-			printf("Seleccione 'r' para conocer mÃ¡s acerca del efecto ph en el agua\n");
+			printf("Seleccione 'i' si desea imprimir los datos de ph \n");
+			printf("Seleccione 'r' para conocer mas acerca del efecto ph en el agua\n");
 			scanf("%c",&opciones1);
 			switch(opciones1){
 				do{
