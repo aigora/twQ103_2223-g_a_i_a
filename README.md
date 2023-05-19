@@ -1,8 +1,8 @@
 
-# Medio Ambiente
+## GAIA
 
 En este proyecto llamado GAIA crearemos un programa que permita registrar, analizar y trabajar con datos recogidos en distintos barrios de la Comunidad de Madrid.
-También permitiremos realizar estadísticas y calculos sobre los datos recogidos.
+También permitiremos realizar estadísticas y cálculos sobre los datos recogidos.
 
 ## Integrantes del equipo
 
