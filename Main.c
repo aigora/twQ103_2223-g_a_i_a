@@ -170,7 +170,7 @@ int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * z
 	return opcion;
 }
 
-char selectDataFrom() {
+char selectDataFrom() { // F
 	fflush(stdin);
 	char opcion;
 	printf("Seleccione una de las siguientes operaciones acerca de los datos:\n");
@@ -363,3 +363,4 @@ int main(){
 	system("pause");
 				return 0;
 }
+
