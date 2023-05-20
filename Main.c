@@ -9,20 +9,9 @@
 #define MAX_LINE_LENGTH 100
 #define NUM_DISTRITOS 4
 
-//DECLARACION FUNCIONES
-void printBanner() { //Funcion para el banner
-    printf("#########     ###     ########      ###    \n");
-    printf("##     ##    ## ##       ##        ## ##   \n");
-    printf("##          ##   ##      ##       ##   ##  \n");
-    printf("##  ####   ##     ##     ##      ##     ## \n");
-    printf("##    ##   #########     ##      ######### \n");
-    printf("##    ##   ##     ##     ##      ##     ## \n");
-    printf("########   ##     ##  ########   ##     ## \n");
-    system("pause");
-}
+//DECLARACION DE ESTRUCTURAS:
 
-
-struct TFuente{
+struct TFuente{ 
 	char nombre[MAX_LENGHT];
 	float ph;
 	int conductividad;
@@ -38,7 +27,33 @@ struct TDistrito{
 	int numFuentes;
 };
 
-int authenticateUser(char *usuario, char *contrasena) {
+// DECLARACION DE FUNCIONES:
+
+void printBanner();
+int authenticateUser(char *usuario, char *contrasena);
+int userRegister(char *usuario, char * contrasena);
+void startingMenu(char * usuario, char * contrasena);
+int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * zona);
+char selectDataFrom();
+int selectParameter();
+void printInfo(int parametro);
+float mediaDe(struct TDistrito * zona, int parametro);
+float maximoDe(struct TDistrito * zona, int parametro);
+float minimoDe(struct TDistrito * zona, int parametro);
+
+
+void printBanner() { //Funcion para el banner
+    printf("#########     ###     ########      ###    \n");
+    printf("##     ##    ## ##       ##        ## ##   \n");
+    printf("##          ##   ##      ##       ##   ##  \n");
+    printf("##  ####   ##     ##     ##      ##     ## \n");
+    printf("##    ##   #########     ##      ######### \n");
+    printf("##    ##   ##     ##     ##      ##     ## \n");
+    printf("########   ##     ##  ########   ##     ## \n");
+    system("pause");
+}
+
+int authenticateUser(char *usuario, char *contrasena) { // Funcion para abrir el fichero con los datos del usuario
     FILE *file = fopen("usuarios.txt", "r");
     if (file == NULL) {
         printf("Error al abrir el archivo de usuarios.\n");
@@ -64,7 +79,7 @@ int authenticateUser(char *usuario, char *contrasena) {
     return 0; // Credenciales invalidas
 }
 
-int userRegister(char *usuario, char * contrasena) {
+int userRegister(char *usuario, char * contrasena) { // Funcion para registrar un usuario
 	system("cls");	
     printf("=== Registro de Usuario ===\n");
 
@@ -86,7 +101,7 @@ int userRegister(char *usuario, char * contrasena) {
     fclose(file);
 }
 
-void startingMenu(char * usuario, char * contrasena) {
+void startingMenu(char * usuario, char * contrasena) { // Funcion para iniciar sesion con el usuario ya registrado
 	int inicio = 0;
     while (!inicio) {
     	system("cls");
@@ -107,7 +122,7 @@ void startingMenu(char * usuario, char * contrasena) {
     }
 }
 
-int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * zona) {
+int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * zona) { // Funcion para seleccionar uno de los dos distritos
 	int opcion;
 	char line[MAX_LINE_LENGTH];
 	
@@ -155,7 +170,6 @@ int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * z
 	return opcion;
 }
 
-
 char selectDataFrom() {
 	fflush(stdin);
 	char opcion;
@@ -170,7 +184,7 @@ char selectDataFrom() {
 	return opcion;
 }
 
-int selectParameter() {
+int selectParameter() { // Funcion para seleccionar un parametro 
 	int parametro;
 	printf("Seleccione uno de los parametros de las fuentes sobre el que realizar la operacion:\n");
 	printf("\t [1] : pH\n");
@@ -182,7 +196,7 @@ int selectParameter() {
 	return parametro;
 }
 
-void printInfo(int parametro) {	
+void printInfo(int parametro) {	// Funcion para imprimir informacion sobre cada parametro
 	switch(parametro) {
 		case 1:
 			printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
@@ -204,20 +218,20 @@ void printInfo(int parametro) {
 	}
 }
 
-float max(float a, int b) {
+float max(float a, int b) { // Funcion para calcular el maximo
 	if (a > b)
 		return a;
 	else b;
 }
 
-float min(float a, int b) {
+float min(float a, int b) { // Funcion para calcular el minimo
 	if (a > b)
 		return b;
 	else
 		return a;
 }
 
-float mediaDe(struct TDistrito * zona, int parametro) {
+float mediaDe(struct TDistrito * zona, int parametro) { // Funcion para calcular la media de un parametro
 	float media = 0;
 	int i = 0;
 	switch(parametro) {
@@ -242,7 +256,7 @@ float mediaDe(struct TDistrito * zona, int parametro) {
 	return media;
 }
 
-float maximoDe(struct TDistrito * zona, int parametro) {
+float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el maximo de un parametro
 	float maxVal = 0;
 	int i = 0;
 	switch(parametro) {
@@ -266,7 +280,7 @@ float maximoDe(struct TDistrito * zona, int parametro) {
 	return maxVal;
 }
 
-float minimoDe(struct TDistrito * zona, int parametro) {
+float minimoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el minimo de un parametro
 	float minVal = 10000000;
 	int i = 0;
 	switch(parametro) {
@@ -289,6 +303,8 @@ float minimoDe(struct TDistrito * zona, int parametro) {
 	}
 	return minVal;
 }
+
+// Main del programa
 
 int main(){
 	char usuario[MAX_USERNAME_LENGTH];
