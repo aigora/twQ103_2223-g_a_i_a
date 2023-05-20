@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 
-
 #define MAX_LENGHT 20
 #define MAX_FUENTES 25
 #define TAM 200
@@ -14,7 +13,6 @@
 
 
 //DECLARACION DE ESTRUCTURAS:
-
 struct TFuente{ 
 	char nombre[MAX_LENGHT];
 	float ph;
@@ -32,7 +30,6 @@ struct TDistrito{
 };
 
 // DECLARACION DE FUNCIONES:
-
 void printBanner();
 int authenticateUser(char *usuario, char *contrasena);
 int userRegister(char *usuario, char * contrasena);
@@ -182,6 +179,9 @@ char selectDataFrom() { // Funcion para elegir la operacion a realizar
 	printf("\t [M] : Para realizar operacion \"maximo\"\n");
 	printf("\t [m] : Para realizar operacion \"minimo\"\n");
 	printf("\t [s] : Salir\n");
+	
+	printf("\n");
+	
 	printf("Operacion seleccionada: ");
 	scanf("%c", &opcion);
 	fflush(stdin);
@@ -197,6 +197,9 @@ int selectParameter() { // Funcion para seleccionar un parametro
 	printf("\t [2] : Conductividad\n");
 	printf("\t [3] : Turbidez\n");
 	printf("\t [4] : Coliformes\n");
+	
+	printf("\n");
+	
 	printf("Parametro seleccionado: ");
 	scanf("%d", &parametro);
 	
@@ -209,7 +212,7 @@ void printInfo(int parametro) {	// Funcion para imprimir informacion sobre cada 
 		case 1:
 			printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
 			printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
-			printf(" Para medir el pH del agua se utiliza una escala del 0 al 14, en la que 7.0 es considerada como la medida neutra..\n");
+			printf("Para medir el pH del agua se utiliza una escala del 0 al 14, en la que 7.0 es considerada como la medida neutra..\n");
 			break;
 		case 2:
 			printf("La conductividad se define como la capacidad del agua para conducir una corriente electrica a traves de los iones disueltos.\n");
@@ -331,7 +334,10 @@ int main(){
     char * archivoZonas[] = {"atocha.txt", "lavapies.txt", "embajadores.txt", "malasana.txt"};
     char * valoresCampos[] = {"Fuente de agua", "pH", "Conductividad", "Turbidez", "Coliformes"};
     
-	int i,final = 0;
+	int i,parametro,final = 0;
+	
+	float data;
+	
     struct TDistrito zonaElegida;
 	zonaElegida.numFuentes = 0;
     
@@ -344,30 +350,37 @@ int main(){
     userRegister(usuario, contrasena); // Se ejecuta la funcion de registro de usuarios
     startingMenu(usuario, contrasena); // Se ejecuta la funcion para iniciar sesion con el usuario creado previamente
     
-    
+    // Comienza el programa
     for (i=0;i<5;i++)
     zonaElegida.campos[i] = valoresCampos[i];
 	while (!final) {
 		if (selectZone(nombreZonas, archivoZonas, &zonaElegida) != -1) {
-			char operacion = selectDataFrom();
+			
+			printf("\n \n"); // Salto de linea
+			
+			char operacion = selectDataFrom(); // Se ejecuta la funcion para elegir la funcion
+			
 			while (operacion != 's') {
-				int parametro = selectParameter();
-				float data;
+				
+				printf("\n \n");
+				
+				parametro = selectParameter(); // Se ejecuta la funcion para seleccionar el parametro
+				
 	    		switch(operacion) {
 	    			case 'i':
 	    				printInfo(parametro);
 	    				break;
 	    			case 'x':
 	    				data = mediaDe(&zonaElegida, parametro);
-	    				printf("%.2f\n", data);
+	    				printf("La media es %.2f\n", data);
 						break;
 	    			case 'M':
 	    				data = maximoDe(&zonaElegida, parametro);
-	    				printf("%.2f\n", data);
+	    				printf("El valor maximo es %.2f\n", data);
 						break;
 	    			case 'm':
 					    data = minimoDe(&zonaElegida, parametro);
-					    printf("%.2f\n", data);
+					    printf("El valor minimo es %.2f\n", data);
 						break;
 					default :
 						printf("Opcion invalida\n");
