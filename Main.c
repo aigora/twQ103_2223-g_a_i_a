@@ -113,7 +113,7 @@ void startingMenu(char * usuario, char * contrasena) { // Funcion para iniciar s
         scanf("%s", contrasena);
 
         if (authenticateUser(usuario, contrasena)) {
-            printf("Inicio de sesion exitoso. ï¿½Bienvenido, %s!\n", usuario);
+            printf("Inicio de sesion exitoso. ¡Bienvenido, %s!\n", usuario);
             inicio = 1;
         } else {
             printf("Credenciales invalidas. Intentalo de nuevo.\n");
