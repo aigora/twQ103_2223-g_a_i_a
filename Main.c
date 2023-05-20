@@ -1,6 +1,9 @@
+// BIBLIOTECAS
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+
+
 #define MAX_LENGHT 20
 #define MAX_FUENTES 25
 #define TAM 200
@@ -8,6 +11,7 @@
 #define MAX_PASSWORD_LENGTH 20
 #define MAX_LINE_LENGTH 100
 #define NUM_DISTRITOS 4
+
 
 //DECLARACION DE ESTRUCTURAS:
 
@@ -81,7 +85,7 @@ int authenticateUser(char *usuario, char *contrasena) { // Funcion para abrir el
 
 int userRegister(char *usuario, char * contrasena) { // Funcion para registrar un usuario
 	system("cls");	
-    printf("=== Registro de Usuario ===\n");
+    printf("=== Registro de usuario ===\n");
 
     printf("Ingrese un nombre de usuario: ");
     scanf("%s", usuario);
@@ -89,7 +93,7 @@ int userRegister(char *usuario, char * contrasena) { // Funcion para registrar u
     printf("Ingrese una contrasena: ");
     scanf("%s", contrasena);
 
-    FILE *file = fopen("usuarios.txt", "w");
+    FILE *file = fopen("usuarios.txt", "w"); // Escribe el nombre y la contrasena en el fichero llamado "Usuarios"
     if (file == NULL) {
         printf("Error al abrir el archivo.\n");
         return 1;
@@ -105,15 +109,15 @@ void startingMenu(char * usuario, char * contrasena) { // Funcion para iniciar s
 	int inicio = 0;
     while (!inicio) {
     	system("cls");
-    	printf("=== Menu de Inicio de Sesion ===\n");
+    	printf("=== Menu de inicio de sesion ===\n");
         printf("Usuario: ");
         scanf("%s", usuario);
 
         printf("Contrasena: ");
         scanf("%s", contrasena);
 
-        if (authenticateUser(usuario, contrasena)) {
-            printf("Inicio de sesion exitoso. ¡Bienvenido, %s!\n", usuario);
+        if (authenticateUser(usuario, contrasena)) { // Reconoce si es el mismo usuario y contrasena que se han introducido previamente
+            printf("Inicio de sesion exitoso. ¡Bienvenido, %s!\n", usuario); 
             inicio = 1;
         } else {
             printf("Credenciales invalidas. Intentalo de nuevo.\n");
@@ -123,25 +127,25 @@ void startingMenu(char * usuario, char * contrasena) { // Funcion para iniciar s
 }
 
 int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * zona) { // Funcion para seleccionar uno de los dos distritos
-	int opcion;
+	int opcion,j,i=0,final=0;
 	char line[MAX_LINE_LENGTH];
 	
 	system("cls");
+	
 	printf("Seleccione unos de los 4 barrios que tenemos disponibles para consultar sus datos\n");
-	int j;
 	for (j = 0; j < NUM_DISTRITOS; j++)	{
-		printf("Pulse [%d] para %s\n", j+1, nombreZonas[j]);		
+		printf("Pulse [%d] para %s\n", j+1, nombreZonas[j]); // Se muestran las opciones que ofrecemos al usuario	
 	}
 	printf("Pulse [0] para salir\n");
-	
 	scanf("%d", &opcion);
 	opcion--;
-	if (opcion == -1)
+	if (opcion == -1){
 		return opcion;
+	}
 		
 	printf("Ha seleccionado %s \n", nombreZonas[opcion]);
- 	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
- 	printf("\n");
+    printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+    printf("\n");
  
 	FILE *file = fopen(archivoZonas[opcion], "r");
 	if (file == NULL) {
@@ -152,8 +156,7 @@ int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * z
 	
 	strcpy(zona->nombre, nombreZonas[opcion]);
 	strcpy(zona->archivo, archivoZonas[opcion]);
-	int i = 0;
-	int final = 0;
+	
 	fgets(line, "\n", file);
 	printf("%s \t %s \t %s \t %s \t %s\n", zona->campos[0], zona->campos[1], zona->campos[2], zona->campos[3], zona->campos[4]);	
 	while (i < MAX_FUENTES && final != EOF) {		
@@ -170,33 +173,38 @@ int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * z
 	return opcion;
 }
 
-char selectDataFrom() { // F
+char selectDataFrom() { // Funcion para elegir la operacion a realizar
 	fflush(stdin);
 	char opcion;
+	
 	printf("Seleccione una de las siguientes operaciones acerca de los datos:\n");
-	printf("\t [i] : informacion acerca del parametro\n\t [x] : para realizar operacion \"media\"\n");
-	printf("\t [M] : para realizar operacion \"maximo\"\n");
-	printf("\t [m] : para realizar operacion \"minimo\"\n");
-	printf("\t [s] : salir\n");
+	printf("\t [i] : Informacion acerca del parametro\n\t [x] : para realizar operacion \"media\"\n");
+	printf("\t [M] : Para realizar operacion \"maximo\"\n");
+	printf("\t [m] : Para realizar operacion \"minimo\"\n");
+	printf("\t [s] : Salir\n");
 	printf("Operacion seleccionada: ");
 	scanf("%c", &opcion);
 	fflush(stdin);
+	
 	return opcion;
 }
 
 int selectParameter() { // Funcion para seleccionar un parametro 
 	int parametro;
+	
 	printf("Seleccione uno de los parametros de las fuentes sobre el que realizar la operacion:\n");
 	printf("\t [1] : pH\n");
-	printf("\t [2] : conductividad\n");
-	printf("\t [3] : turbidez\n");
-	printf("\t [4] : coliformes\n");
+	printf("\t [2] : Conductividad\n");
+	printf("\t [3] : Turbidez\n");
+	printf("\t [4] : Coliformes\n");
 	printf("Parametro seleccionado: ");
 	scanf("%d", &parametro);
+	
 	return parametro;
 }
 
 void printInfo(int parametro) {	// Funcion para imprimir informacion sobre cada parametro
+	
 	switch(parametro) {
 		case 1:
 			printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
@@ -219,12 +227,14 @@ void printInfo(int parametro) {	// Funcion para imprimir informacion sobre cada 
 }
 
 float max(float a, int b) { // Funcion para calcular el maximo
+	
 	if (a > b)
 		return a;
 	else b;
 }
 
 float min(float a, int b) { // Funcion para calcular el minimo
+	
 	if (a > b)
 		return b;
 	else
@@ -234,6 +244,7 @@ float min(float a, int b) { // Funcion para calcular el minimo
 float mediaDe(struct TDistrito * zona, int parametro) { // Funcion para calcular la media de un parametro
 	float media = 0;
 	int i = 0;
+	
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
@@ -253,12 +264,14 @@ float mediaDe(struct TDistrito * zona, int parametro) { // Funcion para calcular
 			break;
 	}
 	media /= zona->numFuentes;
-	return media;
+	
+	return media; // Devuelve un numero decimal que es la media
 }
 
 float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el maximo de un parametro
 	float maxVal = 0;
 	int i = 0;
+	
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
@@ -277,12 +290,14 @@ float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcula
 				maxVal = max(maxVal, zona->fuentes[i].coliformes);
 			break;
 	}
-	return maxVal;
+	
+	return maxVal; // Devuelve un numero decimal que es el maximo valor
 }
 
 float minimoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el minimo de un parametro
 	float minVal = 10000000;
 	int i = 0;
+	
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
@@ -301,31 +316,37 @@ float minimoDe(struct TDistrito * zona, int parametro) { // Funcion para calcula
 				minVal = min(minVal, zona->fuentes[i].coliformes);
 			break;
 	}
-	return minVal;
+	
+	return minVal; // Devuelve un numero decimal que es el valor minimo
 }
 
 // Main del programa
 
 int main(){
+	
+	// Declaracion de variables
 	char usuario[MAX_USERNAME_LENGTH];
     char contrasena[MAX_PASSWORD_LENGTH];
     char * nombreZonas[] = {"Atocha", "Lavapies", "Embajadores", "Malasana"};
     char * archivoZonas[] = {"atocha.txt", "lavapies.txt", "embajadores.txt", "malasana.txt"};
     char * valoresCampos[] = {"Fuente de agua", "pH", "Conductividad", "Turbidez", "Coliformes"};
-    	
-	system("color 8f");
-	printBanner();	
-	printf("\n\n");
-    userRegister(usuario, contrasena);
-    startingMenu(usuario, contrasena);
     
-    int final = 0;
+	int i,final = 0;
     struct TDistrito zonaElegida;
 	zonaElegida.numFuentes = 0;
-    int i;
-    for (i = 0; i < 5; i++)
-    	zonaElegida.campos[i] = valoresCampos[i];
     
+		
+	system("color 8f"); // Cambiar el color de consola
+	printBanner();	// Se abre el banner
+	
+	printf("\n\n"); // Saltos de linea 
+	
+    userRegister(usuario, contrasena); // Se ejecuta la funcion de registro de usuarios
+    startingMenu(usuario, contrasena); // Se ejecuta la funcion para iniciar sesion con el usuario creado previamente
+    
+    
+    for (i=0;i<5;i++)
+    zonaElegida.campos[i] = valoresCampos[i];
 	while (!final) {
 		if (selectZone(nombreZonas, archivoZonas, &zonaElegida) != -1) {
 			char operacion = selectDataFrom();
@@ -359,8 +380,10 @@ int main(){
 			final = 1;
 		}	
 	}    
-	printf("!Hasta pronto!\n");
+	printf("¡Hasta pronto!\n");
 	system("pause");
-				return 0;
+	
+	
+	return 0;
 }
 
