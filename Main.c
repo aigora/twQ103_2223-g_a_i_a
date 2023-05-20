@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 20
+#include <math.h>
+#define MAX_LENGHT 20
+#define MAX_FUENTES 25
 #define TAM 200
-#define MAX_USUARIO 20
-#define MAX_CONTRASENA 20
+#define MAX_USERNAME_LENGTH 20
+#define MAX_PASSWORD_LENGTH 20
 #define MAX_LINE_LENGTH 100
+#define NUM_DISTRITOS 4
 
-//DECLARACION DE FUNCIONES:
-void printBanner();
-int inicioSesion(char *usuario, char *contrasena);
-
-
+//DECLARACION FUNCIONES
 void printBanner() { //Funcion para el banner
     printf("#########     ###     ########      ###    \n");
     printf("##     ##    ## ##       ##        ## ##   \n");
@@ -19,21 +18,39 @@ void printBanner() { //Funcion para el banner
     printf("##    ##   #########     ##      ######### \n");
     printf("##    ##   ##     ##     ##      ##     ## \n");
     printf("########   ##     ##  ########   ##     ## \n");
+    system("pause");
 }
 
-int inicioSesion(char *usuario, char *contrasena) { // Funcion para registrar un usuario o iniciar sesi�n
+
+struct TFuente{
+	char nombre[MAX_LENGHT];
+	float ph;
+	int conductividad;
+	int turbidez;
+	int coliformes;
+};
+
+struct TDistrito{
+	char nombre[MAX_LENGHT];
+	char archivo[MAX_LENGHT];
+	struct TFuente fuentes[MAX_FUENTES];
+	char *campos[5];
+	int numFuentes;
+};
+
+int authenticateUser(char *usuario, char *contrasena) {
     FILE *file = fopen("usuarios.txt", "r");
     if (file == NULL) {
         printf("Error al abrir el archivo de usuarios.\n");
         return 0;
     }
 
-    char line[MAX_USUARIO + MAX_CONTRASENA + 2];
+    char line[MAX_USERNAME_LENGTH + MAX_PASSWORD_LENGTH + 2];
     while (fgets(line, sizeof(line), file) != NULL) {
-        line[strcspn(line, "\n")] = '\0';
+        line[strcspn(line, "\n")] = '\0'; // Eliminar el salto de linea
 
-        char storedUsername[MAX_USUARIO];
-        char storedPassword[MAX_CONTRASENA];
+        char storedUsername[MAX_USERNAME_LENGTH];
+        char storedPassword[MAX_PASSWORD_LENGTH];
 
         sscanf(line, "%s %s", storedUsername, storedPassword);
 
@@ -42,70 +59,19 @@ int inicioSesion(char *usuario, char *contrasena) { // Funcion para registrar un
             return 1; // Credenciales validas
         }
     }
+
     fclose(file);
     return 0; // Credenciales invalidas
 }
 
-// DECLARACION DE ESTRUTURAS:
-	struct agua{
-		char fuentesAgua[30];
-		float ph;
-		int conductividad;
-		int turbidez;
-		int coliformes;
-	};
-	struct inicioSesion{
-		char nombre[10];
-		char apellido[20];
-		int codigoPostal;
-		int numTelf;
-	};
-    struct TDistrito{
-    char parametros[200];
-    float ph;
-    int conductividad;
-    int turbidez;
-    int coliformes;
-    };
+int userRegister(char *usuario, char * contrasena) {
+	system("cls");	
+    printf("=== Registro de Usuario ===\n");
 
-void imprimirMes(struct TDistrito [], int, FILE* , FILE*); // Mirar esto
-
-int main(){
-	
-	// DECLARACION DE VARIABLES
-	char opcion1,opcion2,opcion3,opcion4;
-	char opciones1,opciones2,opciones3,opciones4;
-	
-	char filename[] = "atocha.txt";
-	char filename1[] = "lavapies.txt";
-	char filename2[] = "embajadores.txt";
-	char filename3[] = "malasana.txt";
-	
-	char line[MAX_LINE_LENGTH];
-	char line1[MAX_LINE_LENGTH];
-	char line2[MAX_LINE_LENGTH];
-	char line3[MAX_LINE_LENGTH];
-	
-	char usuario[MAX_USUARIO];
-    char contrasena[MAX_CONTRASENA];
-	
-	struct agua fuentes[TAM];
-	struct TDistrito distrito[TAM];
-	
-	int i,opcion,opciones;
-	
-	printBanner();
-	
-	printf("\n \n");
-	
-    system("color 9f");
-    
-    //Registrar un usuario
-	printf("=== Registro de usuario ===\n");
-    printf("Ingrese un nombre de usuario:\n");
+    printf("Ingrese un nombre de usuario: ");
     scanf("%s", usuario);
 
-    printf("Ingrese una contrasena:\n");
+    printf("Ingrese una contrasena: ");
     scanf("%s", contrasena);
 
     FILE *file = fopen("usuarios.txt", "w");
@@ -113,255 +79,271 @@ int main(){
         printf("Error al abrir el archivo.\n");
         return 1;
     }
+
     fprintf(file, "%s %s\n", usuario, contrasena);
     printf("El nombre de usuario y la contrasena se han guardado en correctamente.\n");
-    system("cls");
-
+    system("pause");
     fclose(file);
+}
 
-    printf("=== Menu de inicio de sesion ===\n");
-
-    while (1) {
-        printf("Usuario:\n");
+void startingMenu(char * usuario, char * contrasena) {
+	int inicio = 0;
+    while (!inicio) {
+    	system("cls");
+    	printf("=== Menu de Inicio de Sesion ===\n");
+        printf("Usuario: ");
         scanf("%s", usuario);
 
-        printf("Contrasena:\n");
+        printf("Contrasena: ");
         scanf("%s", contrasena);
 
         if (authenticateUser(usuario, contrasena)) {
-            printf("Inicio de sesion exitoso. ¡Bienvenido, %s!\n", usuario);
-            break;
+            printf("Inicio de sesion exitoso. �Bienvenido, %s!\n", usuario);
+            inicio = 1;
         } else {
             printf("Credenciales invalidas. Intentalo de nuevo.\n");
-        }
+        } 
+		system("pause");       
     }
-    
-	// Menu para seleccionar los barrios
-	printf("Seleccione unos de los 4 barrios que tenemos disponibles para consultar sus datos\n");
-	printf("Pulse [1] para Atocha\n");
-	printf("Pulse [2] para Lavapies\n");
-	printf("Pulse [3] para Malasana\n");
-	printf("Pulse [4] para Embajadores\n");
-	printf("Pulse cualquier otro numero para salir\n");
-	scanf("%d",&opcion);
-	
-	
-	if (opcion == 1){
-	printf("Ha seleccionado Atocha\n\n");
-	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-	printf("\n \n \n");
-	 
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-     printf("Error al abrir el archivo.\n");
-        return 1;
-    }
-
-    printf("Contenido del archivo '%s':\n", filename);
-
-    while (fgets(line, sizeof(line), file) != NULL) {
-        printf("%s", line);
-    }
-
-    fclose(file);
-	  
-	} else if (opcion == 2){
-	printf("Ha seleccionado Lavapies\n");
-	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-	printf("\n \n \n");
-	 
-    FILE *file = fopen(filename1, "r");
-    if (file == NULL) {
-        printf("Error al abrir el archivo.\n");
-        return 1;
-    }
-
-    printf("Contenido del archivo '%s':\n", filename1);
-
-    while (fgets(line1, sizeof(line1), file) != NULL) {
-        printf("%s", line1);
-    }
-
-    fclose(file);
-	
-	} else if (opcion == 3){
-	printf("Has seleccionado Malasana\n");
-	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-	printf("\n \n \n");
-	 
-    FILE *file = fopen(filename2, "r");
-    if (file == NULL) {
-        printf("Error al abrir el archivo.\n");
-        return 1;
-    }
-
-    printf("Contenido del archivo '%s':\n", filename2);
-
-    while (fgets(line2, sizeof(line1), file) != NULL) {
-        printf("%s", line2);
-    }
-
-    fclose(file);
-    
-	} else if (opcion ==4 ){
-	printf("Has seleccionado Embajadores\n");
-	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
-	printf("\n \n \n");
-	 
-    FILE *file = fopen(filename3, "r");
-    if (file == NULL) {
-        printf("Error al abrir el archivo.\n");
-        return 1;
-    }
-
-    printf("Contenido del archivo '%s':\n", filename3);
-
-    while (fgets(line3, sizeof(line3), file) != NULL) {
-        printf("%s", line3);
-    }
-
-    fclose(file);
-    
-	} else
-	printf("�Hasta pronto!\n");
-    
-	//Menu para elegir varias opciones de informacion
-	switch (opciones){
-		case '1':
-			printf("Seleccione 'i' si desea imprimir los datos de ph \n");
-			printf("Seleccione 'r' para conocer mas acerca del efecto ph en el agua\n");
-			scanf("%c",&opciones1);
-			switch(opciones1){
-				do{
-					case 'R':
-					case 'r':
-						system("cls");
-						printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
-						printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
-						printf(" Para medir el pH del agua se utiliza una escala del 0 al 14, en la que 7.0 es considerada como la medida neutra..\n");
-						printf("J1 introduzca su nombre de usuario:\n");
-						fflush(stdin);
-						//Aqui va lo que falta
-				
-						system("cls");
-					
-						break;
-			
-					case 'I':
-					case 'i':
-						printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
-						printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
-						
-				}while('r'||'i');
-		}
-		case '2'://Ahorcado
-			while(1){
-			while(1){
-		
-			system("cls");
-
-			printf("Seleccione 'i' si desea ver los datos de conductividad \n");
-			printf("Seleccione 'r' si desea saber mas acerca de la conductividad del agua \n");
-			scanf("%c",&opciones2);
-			int als;
-
-			switch(opciones2){
-					case 'r':
-					case 'R':
-						system("cls");
-						printf("La conductividad se define como la capacidad del agua para conducir una corriente eléctrica a través de los iones disueltos.\n");
-						
-						fflush(stdin);
-						fflush(stdin);
-						break;
-
-					case 'I':
-					case 'i':
-						system("cls");
-							
-						printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
-						printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
-			
-						fflush(stdin);
-				
-		    
-					
-
-						system("cls");
-
-					
-			}}
-			
-		case '3':
-			printf("Seleccione 'i' si desea imprimir los datos de ,turbidez,coliformes \n");
-			printf("Seleccione 'r' para conocer más acerca del efecto la turbidez en el agua\n");
-			scanf("%c",&opciones3);
-			switch(opciones3){
-				do{
-				
-					case 'R':
-					case 'r':
-						system("cls");
-						printf("La turbidez es una medida del grado en el cual el agua pierde su transparencia debido a la presencia de partículas en suspensión.\n");
-						printf("Cuantos más sólidos en suspensión haya en el agua, más sucia parecerá ésta y más alta será la turbidez.\n");
-						printf("La turbidez es considerada una buena medida de la calidad del agua.\n");
-		
-						fflush(stdin);
-						//Aqui va lo que falta
-				
-						system("cls");
-					
-						break;
-			
-					case 'I':
-					case 'i':
-						printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
-						printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
-						
-						
-			}while('r'||'i');
-		}
-		
-		case '4'://Snake
-			printf("Seleccione 'i' si desea imprimir los datos de coliformes \n");
-			printf("Seleccione 'r' para conocer más acerca de los coliformes en el agua\n");
-			scanf("%c",&opciones4);
-			switch(opciones4){
-				do{
-				
-					case 'R':
-					case 'r':
-						system("cls");
-						printf("Las bacterias coliformes se utilizan frecuentemente como indicador bacteriano de la calidad sanitaria de los alimentos y el agua.\n");
-						printf("Se definen como bacterias gramnegativas, con forma de bastón, no formadoras de esporas, que pueden fermentar la lactosa con producción de ácido y gas cuando se las incuba a 35–37 °C.\n");
-			
-						fflush(stdin);
-						//Aqui va lo que falta
-				
-						system("cls");
-					
-						break;
-			
-					case 'I':
-					case 'i':
-						
-					printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
-						printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
-						
-			}while('r'||'i');
-		}	
-
-	   	case'5'://Abandonar juego
-			printf("Hasta la proxima!!!!!!!!\n");
-			return 0;
-		default:
-		    printf("la opcion es incorrecta:\n");
-		    break;
-			return 0;//salir del programa
-	}
-	
-	i++;
-	
 }
-return 0;
+
+int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * zona) {
+	int opcion;
+	char line[MAX_LINE_LENGTH];
+	
+	system("cls");
+	printf("Seleccione unos de los 4 barrios que tenemos disponibles para consultar sus datos\n");
+	int j;
+	for (j = 0; j < NUM_DISTRITOS; j++)	{
+		printf("Pulse [%d] para %s\n", j+1, nombreZonas[j]);		
+	}
+	printf("Pulse [0] para salir\n");
+	
+	scanf("%d", &opcion);
+	opcion--;
+	if (opcion == -1)
+		return opcion;
+		
+	printf("Ha seleccionado %s \n", nombreZonas[opcion]);
+ 	printf("A continuacion se abrira un fichero con los datos de este municipio\n");
+ 	printf("\n");
+ 
+	FILE *file = fopen(archivoZonas[opcion], "r");
+	if (file == NULL) {
+    	printf("Error al abrir el archivo.\n");
+    	return -1;
+	}
+	printf("Contenido del archivo '%s': \n", archivoZonas[opcion]);
+	
+	strcpy(zona->nombre, nombreZonas[opcion]);
+	strcpy(zona->archivo, archivoZonas[opcion]);
+	int i = 0;
+	int final = 0;
+	fgets(line, "\n", file);
+	printf("%s \t %s \t %s \t %s \t %s\n", zona->campos[0], zona->campos[1], zona->campos[2], zona->campos[3], zona->campos[4]);	
+	while (i < MAX_FUENTES && final != EOF) {		
+		final = fscanf(file, "%s", zona->fuentes[i].nombre);
+		final = fscanf(file, "%f", &zona->fuentes[i].ph);		
+		final = fscanf(file, "%d", &zona->fuentes[i].conductividad);
+		final = fscanf(file, "%d", &zona->fuentes[i].turbidez);
+		final = fscanf(file, "%d", &zona->fuentes[i].coliformes);
+		printf ("%s:\t %.2f \t\t %d \t\t %d \t\t %d\n", zona->fuentes[i].nombre, zona->fuentes[i].ph, zona->fuentes[i].conductividad, zona->fuentes[i].turbidez, zona->fuentes[i].coliformes);
+		zona->numFuentes++;
+		i++;
+	}
+	fclose(file);
+	return opcion;
+}
+
+
+char selectDataFrom() {
+	fflush(stdin);
+	char opcion;
+	printf("Seleccione una de las siguientes operaciones acerca de los datos:\n");
+	printf("\t [i] : informacion acerca del parametro\n\t [x] : para realizar operacion \"media\"\n");
+	printf("\t [M] : para realizar operacion \"maximo\"\n");
+	printf("\t [m] : para realizar operacion \"minimo\"\n");
+	printf("\t [s] : salir\n");
+	printf("Operacion seleccionada: ");
+	scanf("%c", &opcion);
+	fflush(stdin);
+	return opcion;
+}
+
+int selectParameter() {
+	int parametro;
+	printf("Seleccione uno de los parametros de las fuentes sobre el que realizar la operacion:\n");
+	printf("\t [1] : pH\n");
+	printf("\t [2] : conductividad\n");
+	printf("\t [3] : turbidez\n");
+	printf("\t [4] : coliformes\n");
+	printf("Parametro seleccionado: ");
+	scanf("%d", &parametro);
+	return parametro;
+}
+
+void printInfo(int parametro) {	
+	switch(parametro) {
+		case 1:
+			printf("El pH del agua nos indica su nivel de acidez o alcalinidad.\n");
+			printf("Se trata por tanto de un indicador esencial, que nos permite determinar la idoneidad o no del agua empleada durante el riego..\n");
+			printf(" Para medir el pH del agua se utiliza una escala del 0 al 14, en la que 7.0 es considerada como la medida neutra..\n");
+			break;
+		case 2:
+			printf("La conductividad se define como la capacidad del agua para conducir una corriente electrica a traves de los iones disueltos.\n");
+			break;
+		case 3:
+			printf("La turbidez es una medida del grado en el cual el agua pierde su transparencia debido a la presencia de particulas en suspension.\n");
+			printf("Cuantos mas solidos en suspension haya en el agua, mas sucia parecera, y mas alta sera la turbidez.\n");
+			printf("La turbidez es considerada una buena medida de la calidad del agua.\n");
+			break;
+		case 4:
+			printf("Las bacterias coliformes se utilizan frecuentemente como indicador bacteriano de la calidad sanitaria de los alimentos y el agua.\n");
+			printf("Se definen como bacterias gramnegativas, con forma de baston, no formadoras de esporas, que pueden fermentar la lactosa con produccion de acido y gas cuando se las incuba a 35-37�C.\n");
+			break;
+	}
+}
+
+float max(float a, int b) {
+	if (a > b)
+		return a;
+	else b;
+}
+
+float min(float a, int b) {
+	if (a > b)
+		return b;
+	else
+		return a;
+}
+
+float mediaDe(struct TDistrito * zona, int parametro) {
+	float media = 0;
+	int i = 0;
+	switch(parametro) {
+		case 1:
+			for (i = 0; i < zona->numFuentes; i++)
+				media += zona->fuentes[i].ph;
+			break;
+		case 2:
+			for (i = 0; i < zona->numFuentes; i++)
+				media += zona->fuentes[i].conductividad;
+			break;
+		case 3:
+			for (i = 0; i < zona->numFuentes; i++)
+				media += zona->fuentes[i].turbidez;
+			break;
+		case 4:
+			for (i = 0; i < zona->numFuentes; i++)
+				media += zona->fuentes[i].coliformes;
+			break;
+	}
+	media /= zona->numFuentes;
+	return media;
+}
+
+float maximoDe(struct TDistrito * zona, int parametro) {
+	float maxVal = 0;
+	int i = 0;
+	switch(parametro) {
+		case 1:
+			for (i = 0; i < zona->numFuentes; i++)
+				maxVal = max(maxVal, zona->fuentes[i].ph);
+			break;
+		case 2:
+			for (i = 0; i < zona->numFuentes; i++)
+				maxVal = max(maxVal, zona->fuentes[i].conductividad);
+			break;
+		case 3:
+			for (i = 0; i < zona->numFuentes; i++)
+				maxVal = max(maxVal, zona->fuentes[i].turbidez);
+			break;
+		case 4:
+			for (i = 0; i < zona->numFuentes; i++)
+				maxVal = max(maxVal, zona->fuentes[i].coliformes);
+			break;
+	}
+	return maxVal;
+}
+
+float minimoDe(struct TDistrito * zona, int parametro) {
+	float minVal = 10000000;
+	int i = 0;
+	switch(parametro) {
+		case 1:
+			for (i = 0; i < zona->numFuentes; i++)
+				minVal = min(minVal, zona->fuentes[i].ph);
+			break;
+		case 2:
+			for (i = 0; i < zona->numFuentes; i++)
+				minVal = min(minVal, zona->fuentes[i].conductividad);
+			break;
+		case 3:
+			for (i = 0; i < zona->numFuentes; i++)
+				minVal = min(minVal, zona->fuentes[i].turbidez);
+			break;
+		case 4:
+			for (i = 0; i < zona->numFuentes; i++)
+				minVal = min(minVal, zona->fuentes[i].coliformes);
+			break;
+	}
+	return minVal;
+}
+
+int main(){
+	char usuario[MAX_USERNAME_LENGTH];
+    char contrasena[MAX_PASSWORD_LENGTH];
+    char * nombreZonas[] = {"Atocha", "Lavapies", "Embajadores", "Malasana"};
+    char * archivoZonas[] = {"atocha.txt", "lavapies.txt", "embajadores.txt", "malasana.txt"};
+    char * valoresCampos[] = {"Fuente de agua", "pH", "Conductividad", "Turbidez", "Coliformes"};
+    	
+	system("color 8f");
+	printBanner();	
+	printf("\n\n");
+    userRegister(usuario, contrasena);
+    startingMenu(usuario, contrasena);
+    
+    int final = 0;
+    struct TDistrito zonaElegida;
+	zonaElegida.numFuentes = 0;
+    int i;
+    for (i = 0; i < 5; i++)
+    	zonaElegida.campos[i] = valoresCampos[i];
+    
+	while (!final) {
+		if (selectZone(nombreZonas, archivoZonas, &zonaElegida) != -1) {
+			char operacion = selectDataFrom();
+			while (operacion != 's') {
+				int parametro = selectParameter();
+				float data;
+	    		switch(operacion) {
+	    			case 'i':
+	    				printInfo(parametro);
+	    				break;
+	    			case 'x':
+	    				data = mediaDe(&zonaElegida, parametro);
+	    				printf("%.2f\n", data);
+						break;
+	    			case 'M':
+	    				data = maximoDe(&zonaElegida, parametro);
+	    				printf("%.2f\n", data);
+						break;
+	    			case 'm':
+					    data = minimoDe(&zonaElegida, parametro);
+					    printf("%.2f\n", data);
+						break;
+					default :
+						printf("Opcion invalida\n");
+				}
+				
+				operacion = selectDataFrom();
+			}
+		}
+		else {
+			final = 1;
+		}	
+	}    
+	printf("!Hasta pronto!\n");
+	system("pause");
+				return 0;
 }
