@@ -31,15 +31,29 @@ struct TDistrito{
 
 // DECLARACION DE FUNCIONES:
 void printBanner();
+
 int authenticateUser(char *usuario, char *contrasena);
+
 int userRegister(char *usuario, char * contrasena);
+
 void startingMenu(char * usuario, char * contrasena);
+
 int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * zona);
+
 char selectDataFrom();
+
 int selectParameter();
+
 void printInfo(int parametro);
+
+float max(float a, int b);
+
+float min(float a, int b);
+
 float mediaDe(struct TDistrito * zona, int parametro);
+
 float maximoDe(struct TDistrito * zona, int parametro);
+
 float minimoDe(struct TDistrito * zona, int parametro);
 
 
