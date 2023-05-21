@@ -331,7 +331,7 @@ int main(){
 	char usuario[MAX_USERNAME_LENGTH];
     char contrasena[MAX_PASSWORD_LENGTH];
     char * nombreZonas[] = {"Atocha", "Lavapies", "Embajadores", "Malasana"};
-    char * archivoZonas[] = {"atocha.txt", "lavapies.txt", "embajadores.txt", "malasana.txt"};
+    char * archivoZonas[] = {"202301_atocha.txt", "202301_lavapies.txt", "202301_embajadores.txt", "202301_malasana.txt"};
     char * valoresCampos[] = {"Fuente de agua", "pH", "Conductividad", "Turbidez", "Coliformes"};
     
 	int i,parametro,final = 0;
