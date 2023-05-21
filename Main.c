@@ -44,6 +44,7 @@ float minimoDe(struct TDistrito * zona, int parametro);
 
 
 void printBanner() { //Funcion para el banner
+
     printf("#########     ###     ########      ###    \n");
     printf("##     ##    ## ##       ##        ## ##   \n");
     printf("##          ##   ##      ##       ##   ##  \n");
@@ -51,10 +52,11 @@ void printBanner() { //Funcion para el banner
     printf("##    ##   #########     ##      ######### \n");
     printf("##    ##   ##     ##     ##      ##     ## \n");
     printf("########   ##     ##  ########   ##     ## \n");
+    
     system("pause");
 }
 
-int authenticateUser(char *usuario, char *contrasena) { // Funcion para abrir el fichero con los datos del usuario
+int authenticateUser(char *usuario, char *contrasena) { // Funcion para leer el fichero con los datos del usuario
     FILE *file = fopen("usuarios.txt", "r");
     if (file == NULL) {
         printf("Error al abrir el archivo de usuarios.\n");
@@ -229,14 +231,14 @@ void printInfo(int parametro) {	// Funcion para imprimir informacion sobre cada 
 	}
 }
 
-float max(float a, int b) { // Funcion para calcular el maximo
+float max(float a, int b) { // Funcion para calcular el maximo valor entre dos parámetros, esta funcion se usara dentro de otra funcion *1
 	
 	if (a > b)
 		return a;
 	else b;
 }
 
-float min(float a, int b) { // Funcion para calcular el minimo
+float min(float a, int b) { // Funcion para calcular el minimo valor entre dos parámetros, esta funcion se usara dentro de otra funcion *2
 	
 	if (a > b)
 		return b;
@@ -278,7 +280,7 @@ float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcula
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
-				maxVal = max(maxVal, zona->fuentes[i].ph);
+				maxVal = max(maxVal, zona->fuentes[i].ph); // *1 Se usa la funcion max 
 			break;
 		case 2:
 			for (i = 0; i < zona->numFuentes; i++)
@@ -300,11 +302,11 @@ float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcula
 float minimoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el minimo de un parametro
 	float minVal = 10000000;
 	int i = 0;
-	
+	// Un bucle for que va comparando los distintos parametros
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
-				minVal = min(minVal, zona->fuentes[i].ph);
+				minVal = min(minVal, zona->fuentes[i].ph); // *2 Se usa la funcion min
 			break;
 		case 2:
 			for (i = 0; i < zona->numFuentes; i++)
