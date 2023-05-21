@@ -12,7 +12,7 @@
 #define NUM_DISTRITOS 4
 
 
-//DECLARACION DE ESTRUCTURAS:
+// DECLARACION DE ESTRUCTURAS:
 struct TFuente{ 
 	char nombre[MAX_LENGHT];
 	float ph;
@@ -146,7 +146,7 @@ int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * z
     printf("A continuacion se abrira un fichero con los datos de este municipio\n");
     printf("\n");
  
-	FILE *file = fopen(archivoZonas[opcion], "r");
+	FILE *file = fopen(archivoZonas[opcion], "r"); // Modo lectura del fichero
 	if (file == NULL) {
     	printf("Error al abrir el archivo.\n");
     	return -1;
@@ -157,7 +157,7 @@ int selectZone(char * nombreZonas[], char * archivoZonas[], struct TDistrito * z
 	strcpy(zona->archivo, archivoZonas[opcion]);
 	
 	fgets(line, "\n", file);
-	printf("%s \t %s \t %s \t %s \t %s\n", zona->campos[0], zona->campos[1], zona->campos[2], zona->campos[3], zona->campos[4]);	
+	printf("%s \t %s \t %s \t %s \t %s\n", zona->campos[0], zona->campos[1], zona->campos[2], zona->campos[3], zona->campos[4]); // Se imprimen los datos del fichero	
 	while (i < MAX_FUENTES && final != EOF) {		
 		final = fscanf(file, "%s", zona->fuentes[i].nombre);
 		final = fscanf(file, "%f", &zona->fuentes[i].ph);		
@@ -249,7 +249,7 @@ float min(float a, int b) { // Funcion para calcular el minimo valor entre dos p
 float mediaDe(struct TDistrito * zona, int parametro) { // Funcion para calcular la media de un parametro
 	float media = 0;
 	int i = 0;
-	
+	// Un bucle for que va sumando los parametros entre el total del numero de fuentes
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
@@ -276,7 +276,7 @@ float mediaDe(struct TDistrito * zona, int parametro) { // Funcion para calcular
 float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el maximo de un parametro
 	float maxVal = 0;
 	int i = 0;
-	
+	// Un bucle for que va recorriendo los distintos parametros
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
@@ -302,7 +302,7 @@ float maximoDe(struct TDistrito * zona, int parametro) { // Funcion para calcula
 float minimoDe(struct TDistrito * zona, int parametro) { // Funcion para calcular el minimo de un parametro
 	float minVal = 10000000;
 	int i = 0;
-	// Un bucle for que va comparando los distintos parametros
+	// Un bucle for que va recorriendo los distintos parametros
 	switch(parametro) {
 		case 1:
 			for (i = 0; i < zona->numFuentes; i++)
